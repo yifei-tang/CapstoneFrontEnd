@@ -24,6 +24,30 @@
   color: white;
 }
 
+.graph-grid{
+  background-color:#2e3047;
+  opacity: .8;
+  border-radius: 10px;
+  
+  }
+.output-grid-1{
+  font-size: 14px;
+color: grey;
+padding-top:10px;
+}
+.output-grid-2{
+  font-size: 14px;
+color: grey;
+padding-top:10px;
+}
+
+.output-grid-3{
+  font-size: 14px;
+color: grey;
+padding-top:10px;
+}
+
+
 .App-link {
   color: #61dafb;
 }
