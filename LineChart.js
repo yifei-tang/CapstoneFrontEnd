@@ -1,21 +1,23 @@
 import React, {Component} from 'react';
+import {useState, useEffect} from 'react';
 import * as d3 from "d3";
 import data from './data';
 import data2 from './data2';
-import axis from './axis'
+import axis from './axis';
+import App from './App';
 
-class BarChart extends Component {
+function LineChart() {
  /*constructor(props){
     super(props)
     this.state = {data:''}
 }*/
 
-componentDidMount(){
-    this.draw()
-}
+useEffect(() => {
+    draw()
+}, []);
 
 
-draw(){
+function draw(){
 
   const width = 700;
   const height = 300;
@@ -97,7 +99,7 @@ draw(){
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
     .style("text-decoration", "underline")
-    .text("Actual BCPI vs Predicted BCPI, Quarterly");
+    .text("Test");
   //legend
   svg.append("circle").attr("cx",720).attr("cy",10).attr("r",6).style("fill","#f6c3d0")
   svg.append("circle").attr("cx",720).attr("cy",40).attr("r",6).style("fill","#2570D7")
@@ -113,15 +115,16 @@ draw(){
 
 }
 
-
-render(){
-
+if(App.toPredict == 1){
     return (
-      <div id="container">
-        <svg />
-      </div>
-    )
+        <div id="container">
+          <svg />
+        </div>
+        )
+} else{
+    return null
 }
+
 }
       
-  export default BarChart;
+  export default LineChart;

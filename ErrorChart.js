@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import * as d3 from "d3";
-import data from './data';
-import data2 from './data2';
-import axis from './axis'
+import err from './err';
+import err1 from './err1';
+import err2 from './err2';
+import axis2 from './axis2';
 
-class BarChart extends Component {
+class ErrorChart extends Component {
  /*constructor(props){
     super(props)
     this.state = {data:''}
@@ -20,10 +21,10 @@ draw(){
   const width = 700;
   const height = 300;
   const margin = { top: 50, right: 100, bottom: 80, left: 50 };
-  const yMinValue = d3.min(axis, d => d.y);
-  const yMaxValue = d3.max(axis, d => d.y);
-  const xMinValue = d3.min(axis, d => d.x);
-  const xMaxValue = d3.max(axis, d => d.x);
+  const yMinValue = d3.min(axis2, d => d.y);
+  const yMaxValue = d3.max(axis2, d => d.y);
+  const xMinValue = d3.min(axis2, d => d.x);
+  const xMaxValue = d3.max(axis2, d => d.x);
 
   const svg = d3
     .select('#container')
@@ -43,8 +44,8 @@ draw(){
     .domain([yMinValue, yMaxValue]);
   const line = d3
     .line()
-    .x(data => xScale(data.year))
-    .y(data => yScale(data.BCPI))    
+    .x(err => xScale(err.year))
+    .y(err => yScale(err.error))    
     .curve(d3.curveMonotoneX);
 
   svg
@@ -75,15 +76,25 @@ draw(){
     .call(d3.axisLeft(yScale).ticks(20));
   svg
     .append('path')
-    .datum(data)
+    .datum(err1)
     .attr('fill', 'none')
-    .attr('stroke', '#f6c3d0')
+    .attr('stroke', '#f62810')
     .attr('stroke-width', 4)
-    .attr('class', 'line') 
+    .attr('class', 'line')
+    .style('stroke-dasharray', ('3, 3'))
     .attr('d', line);
   svg
     .append('path')
-    .datum(data2)
+    .datum(err2)
+    .attr('fill', 'none')
+    .attr('stroke', '#f62810')
+    .attr('stroke-width', 4)
+    .attr('class', 'line') 
+    .style('stroke-dasharray', ('3, 3'))
+    .attr('d', line);
+  svg
+    .append('path')
+    .datum(err)
     .attr('fill', 'none')
     .attr('stroke', '#2570D7')
     .attr('stroke-width', 4)
@@ -97,18 +108,15 @@ draw(){
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
     .style("text-decoration", "underline")
-    .text("Actual BCPI vs Predicted BCPI, Quarterly");
+    .text("Prediction Error Percentage, Quarterly");
   //legend
-  svg.append("circle").attr("cx",720).attr("cy",10).attr("r",6).style("fill","#f6c3d0")
-  svg.append("circle").attr("cx",720).attr("cy",40).attr("r",6).style("fill","#2570D7")
-  svg.append("text").attr("x",730).attr("y",10).text("Predicted")
-    .style("font-size","15px").attr("alignment-baseline", "middle")
-  svg.append("text").attr("x",730).attr("y",40).text("Actual")
+  svg.append("circle").attr("cx",670).attr("cy",-12).attr("r",6).style("fill","#2570D7")
+  svg.append("text").attr("x",680).attr("y",-12).text("Prediction Error")
     .style("font-size","15px").attr("alignment-baseline", "middle")
   //axis name
   svg.append("text").attr("x",(width/2)).attr("y",350).text("Year")
     .style("font-size","15px").attr("alignment-baseline", "middle")
-  svg.append("text").attr("x",-20).attr("y",-12).text("BCPI")
+  svg.append("text").attr("x",-20).attr("y",-12).text("Error%")
     .style("font-size","15px").attr("alignment-baseline", "left")
 
 }
@@ -124,4 +132,4 @@ render(){
 }
 }
       
-  export default BarChart;
+  export default ErrorChart;
