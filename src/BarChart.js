@@ -1,33 +1,66 @@
 import React, {Component} from 'react';
 import * as d3 from "d3";
-import data from './data';
-import data2 from './data2';
-import axis from './axis'
+import axis from './axis';
 
+function getReformatedArr(arr,startYear){
+  var newErr=[];
+  console.log(arr);
+  for(var i=0;i<arr.length;i++){
+    newErr.push({"year":parseInt(startYear)+i*0.25,"BCPI":parseFloat(arr[i])})
+  }
+  return newErr;
+}
+function getNewAxis(startYear,axis){
+  var newErr=[];
+  for(var i=0;i<21;i++){
+    newErr.push({"x":parseInt(startYear)+i*0.25,"y":axis[i].y})
+  }
+  return newErr;
+}
 class BarChart extends Component {
- /*constructor(props){
+ constructor(props){
     super(props)
-    this.state = {data:''}
-}*/
+    this.state = {acc:[],reformattedAcc:[],pred:[],reformattedPred:[],startYear:1980}
+}
 
 componentDidMount(){
     this.draw()
 }
+componentWillReceiveProps(nextProps) {
+  this.setState({ 
+    acc: nextProps.acc, 
+    pred: nextProps.pred,
+    startYear:nextProps.startYear,
+    reformattedAcc:getReformatedArr(nextProps.acc,nextProps.startYear),
+    reformattedPred:getReformatedArr(nextProps.pred,nextProps.startYear),
 
+  }); 
+  this.draw();
+
+}
 
 draw(){
-
+  d3.select("#acc_chart_id").remove();
   const width = 700;
   const height = 300;
+  var pred_data=this.state.reformattedPred;
+  var acc_data=this.state.reformattedAcc;
+
+  if(pred_data.length>0)
+    var dynamic_axis=getNewAxis(pred_data[0].year,axis);
+  else
+    var dynamic_axis=axis;
   const margin = { top: 50, right: 100, bottom: 80, left: 50 };
-  const yMinValue = d3.min(axis, d => d.y);
-  const yMaxValue = d3.max(axis, d => d.y);
-  const xMinValue = d3.min(axis, d => d.x);
-  const xMaxValue = d3.max(axis, d => d.x);
+  const yMinValue =   Math.min(Math.min(...this.state.pred),Math.min(...this.state.acc))-5;
+
+  const yMaxValue =   Math.max(Math.max(...this.state.pred),Math.max(...this.state.acc))+5;
+  const xMinValue = d3.min(dynamic_axis, d => d.x);
+  const xMaxValue = d3.max(dynamic_axis, d => d.x);
 
   const svg = d3
     .select('#container')
     .append('svg')
+    .attr('id',"acc_chart_id")
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
@@ -43,8 +76,8 @@ draw(){
     .domain([yMinValue, yMaxValue]);
   const line = d3
     .line()
-    .x(data => xScale(data.year))
-    .y(data => yScale(data.BCPI))    
+    .x(pred_data => xScale(pred_data.year))
+    .y(pred_data => yScale(pred_data.BCPI))    
     .curve(d3.curveMonotoneX);
 
   svg
@@ -75,7 +108,7 @@ draw(){
     .call(d3.axisLeft(yScale).ticks(20));
   svg
     .append('path')
-    .datum(data)
+    .datum(pred_data)
     .attr('fill', 'none')
     .attr('stroke', '#f6c3d0')
     .attr('stroke-width', 4)
@@ -83,7 +116,7 @@ draw(){
     .attr('d', line);
   svg
     .append('path')
-    .datum(data2)
+    .datum(acc_data)
     .attr('fill', 'none')
     .attr('stroke', '#2570D7')
     .attr('stroke-width', 4)
