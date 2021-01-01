@@ -32,15 +32,16 @@ class ErrorChart extends Component {
       this.draw()
   }
   componentWillReceiveProps(nextProps) {
+   // if (this.state.startYear!==nextProps.startYear||this.state.err!==nextProps.err) {
+      console.log("err chart update",this.state.startYear,nextProps.startYear,nextProps);
     this.setState({ 
       err: nextProps.err, 
       startYear:nextProps.startYear,
       reformattedErr:getReformatedErr(nextProps.err,nextProps.startYear), 
       plusBar:getNewErrBar(nextProps.startYear,true),
       negBar:getNewErrBar(nextProps.startYear,false)
-    }); 
-    this.draw();
-
+    },this.draw); 
+  //}
   }
 
   draw(){
@@ -54,7 +55,7 @@ class ErrorChart extends Component {
       var axis=getNewAxis(err[0].year,axis2);
     else
       axis=axis2;
-    const margin = { top: 50, right: 100, bottom: 80, left: 50 };
+    const margin = { top: 50, right: 100, bottom: 80, left: 175  };
     const yMinValue = d3.min(axis, d => d.y);
     const yMaxValue = d3.max(axis, d => d.y);
     const xMinValue = d3.min(axis, d => d.x);

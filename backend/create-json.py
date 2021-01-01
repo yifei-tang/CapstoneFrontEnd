@@ -26,7 +26,7 @@ cal_err=get_year_dict('error_data_calgary_destree.csv')
 def get_dictionary(city,city_dict):
     arr=[]
     for entry in city_dict:
-        arr.append({"City":city,"Year":entry,"Type":"Residential","Values":city_dict[entry]})
+        arr.append({"City":city,"Year":entry,"Type":"Non-residential","Values":city_dict[entry]})
 
     return arr
 

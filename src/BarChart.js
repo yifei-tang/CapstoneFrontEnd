@@ -4,7 +4,6 @@ import axis from './axis';
 
 function getReformatedArr(arr,startYear){
   var newErr=[];
-  console.log(arr);
   for(var i=0;i<arr.length;i++){
     newErr.push({"year":parseInt(startYear)+i*0.25,"BCPI":parseFloat(arr[i])})
   }
@@ -27,16 +26,17 @@ componentDidMount(){
     this.draw()
 }
 componentWillReceiveProps(nextProps) {
-  this.setState({ 
+  //if (this.state.startYear!==nextProps.startYear||this.state.err!==nextProps.err) {
+    console.log("bar chart update",this.state.startYear,nextProps.startYear);
+      this.setState({ 
     acc: nextProps.acc, 
     pred: nextProps.pred,
     startYear:nextProps.startYear,
     reformattedAcc:getReformatedArr(nextProps.acc,nextProps.startYear),
     reformattedPred:getReformatedArr(nextProps.pred,nextProps.startYear),
 
-  }); 
-  this.draw();
-
+  },this.draw); 
+ // }
 }
 
 draw(){
@@ -45,12 +45,12 @@ draw(){
   const height = 300;
   var pred_data=this.state.reformattedPred;
   var acc_data=this.state.reformattedAcc;
-
+  console.log("drawing bar chart",pred_data,acc_data)
   if(pred_data.length>0)
     var dynamic_axis=getNewAxis(pred_data[0].year,axis);
   else
     var dynamic_axis=axis;
-  const margin = { top: 50, right: 100, bottom: 80, left: 50 };
+  const margin = { top: 80, right: 282, bottom: 80, left: 50 };
   const yMinValue =   Math.min(Math.min(...this.state.pred),Math.min(...this.state.acc))-5;
 
   const yMaxValue =   Math.max(Math.max(...this.state.pred),Math.max(...this.state.acc))+5;

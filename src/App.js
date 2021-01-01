@@ -176,7 +176,7 @@ function App (){
 }}>Predict</Button>
             </Cell>
 
-            <BarChart pred={state.plotPredValues} acc={state.plotActualValues} startYear={state.startYear}/>
+            <BarChart style={{margin:"auto"}}pred={state.plotPredValues} acc={state.plotActualValues} startYear={state.startYear}/>
             <ErrorChart err={state.plotErrValues} startYear={state.startYear}/>
 
       </Grid>
