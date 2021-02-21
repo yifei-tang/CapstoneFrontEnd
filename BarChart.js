@@ -220,7 +220,6 @@ draw(){
 
 
 render(){
-
     return (
       <div id="container">
         <svg />

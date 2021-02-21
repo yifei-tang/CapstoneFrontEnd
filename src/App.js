@@ -4,12 +4,14 @@ import React, {Component} from 'react';
 import {useState, useEffect} from 'react';
 //import MyDatePicker from './DatePicker/MyDatePicker'
 //import * as d3 from "d3";
+import CurrencyInput from 'react-currency-input-field';
 import BarChart from './BarChart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 //import {TextField} from '@material-ui/core';
 import ErrorChart from './ErrorChart';
+import LineChart from './LineChart';
 import axios from 'axios';
 
 
@@ -18,37 +20,57 @@ function App (){
 
   const [value,setValue]=useState('');
   const handleSelect=(e)=>{
-    console.log(e);
     setValue(e)
+    setClicked(false);
   }
 
   const [value2,setValue2]=useState('');
   const handleSelect2=(e)=>{
-    console.log(e);
+    setClicked(false);
+
     setValue2(e)
   }
 
   const [value3,setValue3]=useState('');
   const handleSelect3=(e)=>{
-    console.log(e);
+    setClicked(false);
+
     setValue3(e)
   }
 
   const [value4,setValue4]=useState('');
   const handleSelect4=(e)=>{
-    console.log(e);
+    setClicked(false);
     setValue4(e)
+
   }
+  const [price,setPrice]=useState('');
+  const handlePrice=(e)=>{
+    setClicked(false);
+    setPrice(e)
+    console.log(e)
+
+  }
+  const [final_price, setFinal]=useState('');
+  const [clicked, setClicked]=useState('');
 
     return (
       <div className="App">
-       <div style={{width: '80%', margin: 'auto'}}>
+       <div style={{width: '85%', margin: 'auto'}}>
       <Grid className="demo-grid-ruler">
-  
-            <Cell col={1}><label>Year:</label></Cell>
-            {/*<form>
-              <TextField type="date" InputLabelProps={{shrink: true,}}/>
-            </form>*/}
+            <Cell col={1}><label>Initial Value:</label></Cell>
+            <Cell col={1}><CurrencyInput
+              id="input-example"
+              name="input-name"
+              placeholder="Enter Price"
+              prefix="$"
+              style={{width:"95px"}}
+              decimalsLimit={2}
+              onValueChange={handlePrice}
+            /></Cell>
+
+            <Cell col={1}><label>Start Year:</label></Cell>
+
             <Cell col={1}>
             <DropdownButton title={value3} id="Year" onSelect={handleSelect3}>
               <Dropdown.Item eventKey="1981">1981</Dropdown.Item>
@@ -116,7 +138,7 @@ function App (){
   
             <Cell col={1}>
             <label>Location:</label></Cell>
-            <Cell col={2}>
+            <Cell col={1}>
             <DropdownButton title={value2} id="Building-Location" onSelect={handleSelect2}>
             <Dropdown.Item eventKey="Calgary">Calgary</Dropdown.Item>
             <Dropdown.Item eventKey="Edmonton">Edmonton</Dropdown.Item>
@@ -132,50 +154,62 @@ function App (){
             </DropdownButton>
             </Cell>
   
-            <Cell col={2}>
+            <Cell col={1}>
             <Button raised colored onClick={() =>{
-  //App.toPredict = 1;
-  var quarter_converter = {"Q1":".0","Q2":".25","Q3":".5","Q4":".75"};
+              //App.toPredict = 1;
+              var quarter_converter = {"Q1":".0","Q2":".25","Q3":".5","Q4":".75"};
 
-  axios({
-    method: 'get',
-    url: `http://0.0.0.0:5000/act/${value2}/${value3+quarter_converter[value4]}/${value}`
-  })
-  .then(res=>{
-    if(res.data!=null)
-      setState(prevState=>{return {...prevState,plotActualValues:res.data.Values}});
-   })
-   .catch(err=>{
-     console.log("Caught Error");
-   });
-  axios({
-    method: 'get',
-    url: `http://0.0.0.0:5000/err/${value2}/${value3+quarter_converter[value4]}/${value}`
-  })
-  .then(res=>{
-    if(res.data!=null)
-      setState(prevState=>{return {...prevState,plotErrValues:res.data.Values}});
-   })
-   .catch(err=>{
-     console.log("caught");
-   });
-  axios({
-    method: 'get',
-    url: `http://0.0.0.0:5000/pred/${value2}/${value3+quarter_converter[value4]}/${value}`
-  })
-  .then(res=>{
-    if(res.data!=null)
-      setState(prevState=>{return {...prevState,plotPredValues:res.data.Values,startYear:res.data.Year}});
-    else
-      alert("No data for these inputs yet");
+              axios({
+                method: 'get',
+                url: `http://0.0.0.0:5000/act/${value2}/${value3+quarter_converter[value4]}/${value}`
+              })
+              .then(res=>{
+                if(res.data!=null)
+                  setState(prevState=>{return {...prevState,plotActualValues:res.data.Values}});
+              })
+              .catch(err=>{
+                console.log("Caught Error");
+              });
+              axios({
+                method: 'get',
+                url: `http://0.0.0.0:5000/err/${value2}/${value3+quarter_converter[value4]}/${value}`
+              })
+              .then(res=>{
+                if(res.data!=null)
+                  setState(prevState=>{return {...prevState,plotErrValues:res.data.Values}});
+              })
+              .catch(err=>{
+                console.log("caught");
+              });
+              axios({
+                method: 'get',
+                url: `http://0.0.0.0:5000/pred/${value2}/${value3+quarter_converter[value4]}/${value}`
+              })
+              .then(res=>{
+                if(res.data!=null){
+                  setState(prevState=>{return {...prevState,plotPredValues:res.data.Values,startYear:res.data.Year,}});
+                  setFinal(parseFloat(price)*parseFloat(res.data.Values[res.data.Values.length-1])/100,res.data.Values);
+                  setClicked(true);
+                }
+                else
+                  alert("No data for these inputs yet");
 
-  })
-  .catch(err=>{
-    alert("Invalid input, please try again");
-  });
-}}>Predict</Button>
+              })
+              .catch(err=>{
+                alert("Invalid input, please try again");
+              });
+            }}>Predict</Button>
             </Cell>
+            <Cell col={5} style={{fontSize:"40"}}>
+            {  clicked?<div className="prediction">
+              Predicted Building Price in {parseFloat(value3)+5} {value4}: {final_price.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
 
+              </div>:null }
+            </Cell>
+            {/* <LineChart/> */}
             <BarChart style={{margin:"auto"}}pred={state.plotPredValues} acc={state.plotActualValues} startYear={state.startYear}/>
             <ErrorChart err={state.plotErrValues} startYear={state.startYear}/>
 

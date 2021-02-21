@@ -122,6 +122,78 @@ draw(){
     .attr('stroke-width', 4)
     .attr('class', 'line') 
     .attr('d', line);
+
+  //mouse hover  
+  svg
+    .selectAll(".dot")
+    .data(pred_data, function(d) {return d.year+':'+d.BCPI;})
+    .enter()
+    .append("circle")
+      .attr("r", 5)
+      .attr("cx", function(d) { return xScale(d.year)})
+      .attr("cy", function(d) { return yScale(d.BCPI)})
+      .attr("stroke", "#FF0000")
+      .attr("stroke-width", 1.5)
+      .attr("fill", "#FFFFFF")
+      .on('mouseover', function (event, d, i) {
+        d3.select(this).transition()
+              .duration('100')
+              .attr("r", 7);
+        tooltip.transition()
+            .duration(100)
+            .style("opacity", 1);
+        tooltip.text( d.BCPI.toFixed(2) + " , " + d.year)
+              .style("left", (event.pageX + 10) + "px")
+              .style("top", (event.pageY - 15) + "px");
+              //.attr('transform', `translate(${x}, ${y})`);
+            })
+      .on('mouseout', function (d, i) {
+        d3.select(this).transition()
+            .duration('200')
+            .attr("r", 5);
+        tooltip.transition()
+            .duration('200')
+            .style("opacity", 0);
+          });
+
+  svg
+    .selectAll(".dot")
+    .data(acc_data)
+    .enter()
+    .append("circle")
+      .attr("r", 5)
+      .attr("cx", function(d) { return xScale(d.year)})
+      .attr("cy", function(d) { return yScale(d.BCPI)})
+      .attr("stroke", "#0000A0")
+      .attr("stroke-width", 1.5)
+      .attr("fill", "#FFFFFF")
+      .on('mouseover', function (event, d, i) {
+        d3.select(this).transition()
+              .duration('100')
+              .attr("r", 7);
+        tooltip.transition()
+             .duration(100)
+             .style("opacity", 1);
+        tooltip.text( d.BCPI.toFixed(2) + " , " + d.year)
+              .style("left", (event.pageX + 10) + "px")
+              .style("top", (event.pageY - 15) + "px");
+              //.attr('transform', `translate(${x}, ${y})`);
+            })
+      .on('mouseout', function (d, i) {
+        d3.select(this).transition()
+             .duration('200')
+             .attr("r", 5);
+        tooltip.transition()
+             .duration('200')
+             .style("opacity", 0);
+            });
+
+    var tooltip = d3.select("#container")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("font-weight", 800)
+      .style("opacity", 0);
+  
   //title
   svg
     .append("text")
@@ -148,7 +220,6 @@ draw(){
 
 
 render(){
-
     return (
       <div id="container">
         <svg />

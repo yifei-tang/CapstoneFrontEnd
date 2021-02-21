@@ -30,7 +30,10 @@
   border-radius: 10px;
   
 }
-
+.prediction{
+  font-size: 15px;
+  font-family: sans-serif;
+}
 .App-link {
   color: #61dafb;
 }

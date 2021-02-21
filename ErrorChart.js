@@ -33,7 +33,6 @@ class ErrorChart extends Component {
   }
   componentWillReceiveProps(nextProps) {
    // if (this.state.startYear!==nextProps.startYear||this.state.err!==nextProps.err) {
-      console.log("err chart update",this.state.startYear,nextProps.startYear,nextProps);
     this.setState({ 
       err: nextProps.err, 
       startYear:nextProps.startYear,
@@ -45,6 +44,7 @@ class ErrorChart extends Component {
   }
 
   draw(){
+    console.log("draw");
     const width = 700;
     const height = 300;
     d3.select("#err_id").remove();
@@ -69,6 +69,12 @@ class ErrorChart extends Component {
       .append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
 
+      var tooltip = d3.select("#container")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("font-weight", 800)
+      .style("opacity", 0);  
+  
     const xScale = d3
       .scaleLinear()
       .domain([xMinValue, xMaxValue])
@@ -169,12 +175,6 @@ class ErrorChart extends Component {
           .style("opacity", 0);
         });
 
-  var tooltip = d3.select("#container")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("font-weight", 800)
-    .style("opacity", 0);  
-
     
     svg
       .append("text")
@@ -185,14 +185,14 @@ class ErrorChart extends Component {
       .style("text-decoration", "underline")
       .text("Prediction Error Percentage, Quarterly");
     //legend
-    svg.append("circle").attr("cx",670).attr("cy",-12).attr("r",6).style("fill","#2570D7")
+    svg.append("circle").attr("cx",670).attr("cy",-12).attr("r",6).style("fill","#2570D7");
     svg.append("text").attr("x",680).attr("y",-12).text("Prediction Error")
-      .style("font-size","15px").attr("alignment-baseline", "middle")
+      .style("font-size","15px").attr("alignment-baseline", "middle");
     //axis name
     svg.append("text").attr("x",(width/2)).attr("y",350).text("Year")
-      .style("font-size","15px").attr("alignment-baseline", "middle")
+      .style("font-size","15px").attr("alignment-baseline", "middle");
     svg.append("text").attr("x",-20).attr("y",-12).text("Error%")
-      .style("font-size","15px").attr("alignment-baseline", "left")
+      .style("font-size","15px").attr("alignment-baseline", "left");
 
   }
 
