@@ -49,7 +49,7 @@ draw(){
   if(pred_data.length>0)
     var dynamic_axis=getNewAxis(pred_data[0].year,axis);
   else
-    var dynamic_axis=axis;
+    dynamic_axis=axis;
   const margin = { top: 80, right: 282, bottom: 80, left: 50 };
   const yMinValue =   Math.min(Math.min(...this.state.pred),Math.min(...this.state.acc))-5;
 

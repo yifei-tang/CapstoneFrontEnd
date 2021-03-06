@@ -1,10 +1,9 @@
-import React, {Component} from 'react';
-import {useState, useEffect} from 'react';
+import React from 'react';
+import { useEffect} from 'react';
 import * as d3 from "d3";
 import data from './data';
 import data2 from './data2';
 import axis from './axis';
-import App from './App';
 
 function LineChart() {
  /*constructor(props){

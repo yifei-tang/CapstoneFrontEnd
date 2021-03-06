@@ -1,7 +1,7 @@
 import './App.css';
-import {Grid, Cell,Textfield, Button} from 'react-mdl';
-import React, {Component} from 'react';
-import {useState, useEffect} from 'react';
+import {Grid, Cell, Button} from 'react-mdl';
+import React from 'react';
+import {useState} from 'react';
 //import MyDatePicker from './DatePicker/MyDatePicker'
 //import * as d3 from "d3";
 import CurrencyInput from 'react-currency-input-field';
@@ -11,7 +11,6 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 //import {TextField} from '@material-ui/core';
 import ErrorChart from './ErrorChart';
-import LineChart from './LineChart';
 import axios from 'axios';
 
 
