@@ -161,7 +161,7 @@ function App (){
 
               axios({
                 method: 'get',
-                url: `http://0.0.0.0:5000/act/${value2}/${value3+quarter_converter[value4]}/${value}`
+                url: `https://yifei-capstone-server.herokuapp.com/act/${value2}/${value3+quarter_converter[value4]}/${value}`
               })
               .then(res=>{
                 if(res.data!=null)
@@ -172,7 +172,7 @@ function App (){
               });
               axios({
                 method: 'get',
-                url: `http://0.0.0.0:5000/err/${value2}/${value3+quarter_converter[value4]}/${value}`
+                url: `https://yifei-capstone-server.herokuapp.com/err/${value2}/${value3+quarter_converter[value4]}/${value}`
               })
               .then(res=>{
                 if(res.data!=null)
@@ -183,7 +183,7 @@ function App (){
               });
               axios({
                 method: 'get',
-                url: `http://0.0.0.0:5000/pred/${value2}/${value3+quarter_converter[value4]}/${value}`
+                url: `https://yifei-capstone-server.herokuapp.com/pred/${value2}/${value3+quarter_converter[value4]}/${value}`
               })
               .then(res=>{
                 if(res.data!=null){
