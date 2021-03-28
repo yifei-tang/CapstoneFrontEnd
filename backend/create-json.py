@@ -1,7 +1,18 @@
 import csv
 from collections import defaultdict
 import json
+from os import walk
+import os
+import re
+
 dict_to_jsonify={}
+def get_dictionary(city,city_dict,building_type):
+    arr=[]
+    for entry in city_dict:
+        arr.append({"City":city,"Year":entry,"Type":building_type,"Values":city_dict[entry]})
+
+    return arr
+
 def get_year_dict(city):
     with open(city) as calgary_actual:
         reader=csv.reader(calgary_actual, delimiter=',',quotechar='|')
@@ -9,31 +20,56 @@ def get_year_dict(city):
         
         for j,row in enumerate(reader):
             if j==0:
-                years=row
+                years=row[1:]
             else:
-                for i in range(len(row)):
-                    year_dict[years[i]].append(row[i])
+                for i in range(len(row)-1):
+                    year_dict[years[i]].append(row[i+1])
     
     return year_dict
 
-cal_actual=get_year_dict('actual_data_calgary.csv')
-tor_actual=get_year_dict('actual_data_toronto.csv')
-tor_pred=get_year_dict('prediction_data_toronto_destree.csv')
-cal_pred=get_year_dict('prediction_data_calgary_destree.csv')
-tor_err=get_year_dict('error_data_toronto_destree.csv')
-cal_err=get_year_dict('error_data_calgary_destree.csv')
 
-def get_dictionary(city,city_dict):
-    arr=[]
-    for entry in city_dict:
-        arr.append({"City":city,"Year":entry,"Type":"Non-residential","Values":city_dict[entry]})
+mypath="/home/yifei/Documents/capstone-data/dnn_data-20210327T191050Z-001"
+l=[]
+act,err,pred=[],[],[]
 
-    return arr
+for (dirpath, dirnames, filenames) in walk(mypath):
+    for file in filenames:
+        l.append((dirpath,file))
+p=0
+e=0
+a=0
+for path, s in l:
+    full_path=path+'/'+s
+    s=s.split("_")
+    data_type=s[0]
+    neural_net=s[2]
+    city=s[3].split(", ")[0]
+    building_type=s[4].split(".")[0]
 
-pred=get_dictionary("Calgary",cal_pred)+get_dictionary("Toronto",tor_pred)
-act=get_dictionary("Calgary",cal_actual)+get_dictionary("Toronto",tor_actual)
-err=get_dictionary("Calgary",cal_err)+get_dictionary("Toronto",tor_err)
+    if city=="St. John":
+        city="St. John's"
+        building_type=s[5].split(".")[0]
+    if city=="Montréal":
+        city="Montreal"
+    building_type=re.sub(r'[^a-zA-Z -]',"",building_type).split(" ")[0]
+    database_entry=get_year_dict(full_path)
+   
+    if data_type=="prediction":
+        p+=1
+        #print("pred",len(database_entry))
+        pred.extend(get_dictionary(city,database_entry,building_type))
+    elif data_type=="error":
+        e+=1
+        #print("err",len(database_entry))
 
+        err.extend(get_dictionary(city,database_entry,building_type))
+    elif data_type=="actual":
+        a+=1
+       # print("act",len(database_entry))
+
+        act.extend(get_dictionary(city,database_entry,building_type))
+
+print("act",len(act),a,"err",len(err),e,"pred",len(pred),p)
 with open('pred.json', 'w') as fp:
     json.dump(pred, fp)
 
@@ -44,6 +80,6 @@ with open('err.json', 'w') as fp:
     json.dump(err, fp)
 
 '''
-mongoimport --host   cluster0-shard-00-02.dxkn1.mongodb.net:27017  --db pred --type json \
---file pred.json --jsonArray --authenticationDatabase admin --ssl --username admin --password ece297
+mongoimport --host   cluster0-shard-00-01.dxkn1.mongodb.net:27017  --db pred --type json \
+--file err.json --jsonArray --authenticationDatabase admin --ssl --username admin --password ece297
 '''
