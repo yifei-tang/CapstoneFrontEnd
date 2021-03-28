@@ -37,7 +37,10 @@
 .App-link {
   color: #61dafb;
 }
-
+.mdl-layout .mdl-layout__drawer-button{
+  color: black !important;
+  opacity: 0.8;
+}
 
 @keyframes App-logo-spin {
   from {

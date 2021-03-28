@@ -32,7 +32,6 @@ class ErrorChart extends Component {
       this.draw()
   }
   componentWillReceiveProps(nextProps) {
-   // if (this.state.startYear!==nextProps.startYear||this.state.err!==nextProps.err) {
     this.setState({ 
       err: nextProps.err, 
       startYear:nextProps.startYear,
@@ -40,11 +39,9 @@ class ErrorChart extends Component {
       plusBar:getNewErrBar(nextProps.startYear,true),
       negBar:getNewErrBar(nextProps.startYear,false)
     },this.draw); 
-  //}
   }
 
   draw(){
-    console.log("draw");
     const width = 700;
     const height = 300;
     d3.select("#err_id").remove();

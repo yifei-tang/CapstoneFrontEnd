@@ -26,8 +26,6 @@ componentDidMount(){
     this.draw()
 }
 componentWillReceiveProps(nextProps) {
-  //if (this.state.startYear!==nextProps.startYear||this.state.err!==nextProps.err) {
-    console.log("bar chart update",this.state.startYear,nextProps.startYear);
       this.setState({ 
     acc: nextProps.acc, 
     pred: nextProps.pred,
@@ -36,7 +34,6 @@ componentWillReceiveProps(nextProps) {
     reformattedPred:getReformatedArr(nextProps.pred,nextProps.startYear),
 
   },this.draw); 
- // }
 }
 
 draw(){
@@ -45,7 +42,6 @@ draw(){
   const height = 300;
   var pred_data=this.state.reformattedPred;
   var acc_data=this.state.reformattedAcc;
-  console.log("drawing bar chart",pred_data,acc_data)
   if(pred_data.length>0)
     var dynamic_axis=getNewAxis(pred_data[0].year,axis);
   else
