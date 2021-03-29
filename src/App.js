@@ -247,7 +247,7 @@ function App (){
             </Cell>
 
             <Cell col={5} style={{fontSize:"40"}}>
-            {  clicked?<div className="prediction">
+            {  (clicked && final_price)?<div className="prediction">
               Predicted Building Price in {parseFloat(value3)+5} {value4}: {final_price.toLocaleString('en-US', {
                   style: 'currency',
                   currency: 'USD',
