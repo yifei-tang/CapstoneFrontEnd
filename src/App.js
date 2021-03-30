@@ -179,7 +179,7 @@ function App (){
             <Dropdown.Item eventKey="Montreal">Montreal</Dropdown.Item>
             <Dropdown.Item eventKey="Ottawa-Gatineau">Ottawa-Gatineau</Dropdown.Item>
             <Dropdown.Item eventKey="Saskatoon">Saskatoon</Dropdown.Item>
-            <Dropdown.Item eventKey="St.John's">St.John's</Dropdown.Item>
+            <Dropdown.Item eventKey="St. John's">St. John's</Dropdown.Item>
             <Dropdown.Item eventKey="Toronto">Toronto</Dropdown.Item>
             <Dropdown.Item eventKey="Vancouver">Vancouver</Dropdown.Item>
             <Dropdown.Item eventKey="Winnipeg">Winnipeg</Dropdown.Item>
@@ -245,17 +245,41 @@ function App (){
               ////////////////////////////////////////////////////////////////////////////
             }}>Predict</Button>
             </Cell>
+            
+            { 
+            
+            (clicked && value2 === "Moncton")?<Cell col={12} style={{fontSize:"40"}}><div className="prediction" style={{margin:"15px"}}>
+              Note: Moncton is a city without data before 2017 Q1, so the model used was a composition of 18.3% Toronto, 25.1% Montreal, 29.9% Ottawa, 26.7% Halifax.
+              </div> </Cell>:null }
+           
 
-            <Cell col={5} style={{fontSize:"40"}}>
-            {  (clicked && final_price)?<div className="prediction">
+            
+              { (clicked && value2 === "St. John's")?<Cell col={12} style={{fontSize:"40"}}><div className="prediction" style={{margin:"15px"}}>
+                      Note: St. John's is a city without data before 2017 Q1, so the model used was a composition of 23.1% Toronto , 26.2% Montreal, 23.3% Ottawa, 27.5% Halifax.
+                      </div></Cell>:null }
+                    
+
+        
+              {  (clicked && value2 === "Saskatoon")?<Cell col={12} style={{fontSize:"40"}}><div className="prediction" style={{margin:"15px"}}>
+                Note: Saskatoon is a city without data before 2017 Q1, so the model used was a composition of 32.0% Vancouver, 33.7% Calgary, 34.3% Edmonton.
+                </div> </Cell>:null }
+                    
+
+        
+                    {  (clicked && value2 === "Winnipeg")?<Cell col={12} style={{fontSize:"40"}}><div className="prediction" style={{margin:"15px"}}>
+          Note: Winnipeg is a city without data before 2017 Q1, so the model used was a composition of 32.1% Vancouver, 33.5% Calgary, 34.4% Edmonton.
+          </div> </Cell>:null }
+           
+            
+            {  (clicked && final_price)?<Cell col={12} ><div className="prediction" style={{fontSize:"30px"}}>
               Predicted Building Price in {parseFloat(value3)+5} {value4}: {final_price.toLocaleString('en-US', {
                   style: 'currency',
                   currency: 'USD',
                 })}
 
-              </div>:null }
-            </Cell>
-
+              </div> </Cell>:null }
+           
+            
 
             <BarChart style={{margin:"auto"}}pred={state.plotPredValues} acc={state.plotActualValues} startYear={state.startYear}/>
             <ErrorChart err={state.plotErrValues} startYear={state.startYear}/>
