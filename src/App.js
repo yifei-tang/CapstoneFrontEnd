@@ -51,7 +51,7 @@ function App (){
 
   //for User History
   const [Userhistory, setHistory]=useState('');
-  const [clicked2, setClicked2]=useState('');
+  // const [clicked2, setClicked2]=useState('');
 
     return (
       <div className="App">
