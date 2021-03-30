@@ -62,21 +62,19 @@ function App (){
       <Layout >
            <Drawer title="Session History">
 
-          <p><Button raised colored onClick={() =>{
+         {/* <p><Button raised colored onClick={() =>{
            setClicked(false);
            //setClicked2(false);
            setHistory(User_history);
            setClicked2(true);
-         }}>Get Latest</Button></p>
+         }}>Get Latest</Button></p> */}
 
         {  clicked?<div className="history">
-           {Userhistory.map(his=>(<li>Date: {his[0]} {his[1]}, Type: {his[2]} and Location: {his[3]}. 
-           The initial value CAD{his[4]} became CAD{his[5]}.</li>))}
+           {Userhistory.map(his=>(<li>Date: {his[0]} {his[1]}, Type: {his[2]} and Location: {his[3]}.</li>))}
            </div>:null }
-        {  clicked2?<div className="history">
-           {Userhistory.map(his=>(<li>Date: {his[0]} {his[1]}, Type: {his[2]} and Location: {his[3]}. 
-           The initial value CAD{his[4]} became CAD{his[5]}.</li>))}
-           </div>:null }
+      {/*  {  clicked2?<div className="history">
+           {Userhistory.map(his=>(<li>Date: {his[0]} {his[1]}, Type: {his[2]} and Location: {his[3]}.</li>))}
+           </div>:null } */}
 
            </Drawer> 
 
@@ -237,7 +235,7 @@ function App (){
               });
 
               ////////////////////User History////////////////////////////////////////////
-              setClicked2(false);
+              //setClicked2(false);
               var parameters = [value3, value4, value, value2, price, final_price];
               User_history.push(parameters);
               //alert(User_history);
@@ -280,16 +278,26 @@ function App (){
               </div> </Cell>:null }
            
             
-
             <BarChart style={{margin:"auto"}}pred={state.plotPredValues} acc={state.plotActualValues} startYear={state.startYear}/>
             <ErrorChart err={state.plotErrValues} startYear={state.startYear}/>
+            
 
             </Grid>
             </div>
          </Content>
-
-
          </Layout>
+
+
+        {/*}
+         <div style={{width: '85%', margin: 'auto'}}>
+          <Grid className="demo-grid-ruler">
+
+         <BarChart style={{margin:"auto"}}pred={state.plotPredValues} acc={state.plotActualValues} startYear={state.startYear}/>
+          <ErrorChart err={state.plotErrValues} startYear={state.startYear}/>
+
+          </Grid>
+            </div>
+          */}
 
 
   
