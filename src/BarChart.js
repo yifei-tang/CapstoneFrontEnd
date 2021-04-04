@@ -187,7 +187,8 @@ draw(){
     var tooltip = d3.select("#container")
       .append("div")
       .attr("class", "tooltip")
-      .style("font-weight", 800)
+      .style("font-weight", 700)
+      .style("font-size","20px")
       .style("opacity", 0);
   
   //title
