@@ -1,5 +1,7 @@
 # CapstoneFrontEnd
 
+4th Year Team of 4 Capstone Design Project for Computer Engineering Undergraduate program.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
